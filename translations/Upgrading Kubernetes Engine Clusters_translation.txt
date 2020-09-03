@@ -1,0 +1,66 @@
+AK8S-05 Upgrading Kubernetes Engine Clusters
+
+
+
+##Objectives
+	- In this lab, you learn how to perform the following tasks:
+
+	- Use the GCP Console to upgrade your GKE cluster.
+
+1. Deploy a GKE cluster
+	
+	- In the GCP Console, on the Navigation menu, Kubenetes, Clusters:
+
+
+	- Click the Master version drop down menu to expand the list of available Kubernetes versions:
+
+		gcloud container get-server-config
+
+
+	- Create clusters
+
+		gcloud beta container clusters create "cluster-1" --zone "us-central1-c" --master --cluster-version "1.14.10-gke.27"
+
+
+			
+2. From the GCP Console, on the Navigation menu, in the Kubernetes Engine section, click Clusters to view:
+
+		gcloud container clusters list
+	
+
+
+3. Upgrade your GKE cluster:
+	
+	- In the GCP Console, Navigation menu, in the Kubernetes Engine section, click Clusters:
+
+	- To the right of the master version, click the Upgrade available link to start the upgrade wizard:
+
+		gcloud container clusters upgrade cluster-1 --master --cluster-version="1.15.11-gke.5"
+
+	
+	- When the master upgrade has completed, the master version number changes to the version that you 
+	  selected in the upgrade wizard (list clusters to confirm)
+		
+		gcloud container clusters list
+	
+
+4.Upgrade the node pool in your cluster
+
+	- You must now upgrade the nodes of your cluster to the same version as the master.
+
+	- Refresh your web browser to display the prompt, and then click Upgrade oldest node pool.
+
+		gcloud container node-pools list --cluster=cluster-1
+
+
+5. In the upgrade wizard window, choose the most recent version  and then click Change to continue with the upgrade
+
+		gcloud container clusters upgrade clusters
+
+
+6. When all of the nodes have been upgraded the new version is reflected in the node pool details pane:
+	
+	- To confirm: 
+
+		gcloud container node-pools list --cluster=cluster-1
+
