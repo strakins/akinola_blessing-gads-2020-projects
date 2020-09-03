@@ -1,0 +1,107 @@
+Google Cloud Fundamentals: Getting Started with Compute Engine
+
+
+
+
+##Objectives 
+
+	- Create a Compute Engine virtual machine using the Google Cloud Platform (GCP) Console.
+
+	- Create a Compute Engine virtual machine using the gcloud command-line interface.
+
+	- Connect between the two instances.
+
+#STEPS
+
+1. Create a virtual machine using the GCP Console
+
+		gcloud compute instances create "my-vm-1"  --machine-type "n1-standard-1" --image-project "debian-cloud"
+		
+		--image "debian-9-stretch-v20190213"--subnet "default"
+
+
+2. Create a virtual machine using the gcloud command line
+	
+	- display a list of all the zones in the region to which Qwiklabs assigned you to make selection
+
+		gcloud compute zones list | grep us-central1
+
+
+	- Choose a zone from that list other than the zone to which Qwiklabs assigned you
+		
+		gcloud config set compute/zone us-central1-b
+
+
+3. Create a VM instance called my-vm-2 in that zone:
+
+		gcloud compute instances create "my-vm-2" --machine-type "n1-standard-1" --image-project "debian-cloud" 
+
+		--image "debian-9-stretch-v20190213" --subnet "default"
+
+
+4. Close the Cloud Shell:
+
+		exit
+
+
+5. Connect between VM instances:
+
+	- Explore the two vm instances just created on Google Cloud Platform Console(GCP):
+
+		gcloud compute instances list
+
+
+6. Open command prompt on the my-vm-2 instance, that is SSH in its row into VM 2. 
+
+		gcloud compute ssh my-vm-2 --zone=us-central1-b
+
+
+7. Use the ping command to confirm that my-vm-2 can reach my-vm-1 over the network:
+
+		ping my-vm-1
+
+
+	- Press Cntl+C to stop the ping
+
+
+8. Use the ssh command to open a command prompt on my-vm-1:  
+
+		ssh my-vm-1
+
+
+9. At the command prompt on my-vm-1, install the Nginx web server:
+
+		sudo apt-get install nginx-light -y
+
+
+10. Use the nano text editor to add a custom message to the home page of the web server:
+
+		sudo nano /var/www/html/index.nginx-debian.html
+
+
+11. Move the cursor to the line just below the h1 header and edit the text
+
+		Hi from YOUR_NAME
+
+
+12. Confirm that the web server is serving your new page:
+
+		curl http://localhost/
+
+
+13. Exit the command prompt on my-vm-1: 
+
+		exit
+
+
+14. Confirm that my-vm-2 can reach the web server on my-vm-1, at the command prompt on my-vm-2:
+
+
+		curl http://my-vm-1/
+
+15. On GCP console, Navigation menu, Vm instances
+
+		gcloud compute instances list
+
+
+16. Copy the External IP address for my-vm-1 and paste it into the address bar of a new browser
